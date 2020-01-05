@@ -1,0 +1,6 @@
+T1:
+docker build -t mysql-image .
+docker run --name mysql-cont -p 8080:8080 --net=blog-net mysql-image
+
+T2:
+docker exec -it mysql-cont mysql -u root -p
