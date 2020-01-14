@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  blog-net:
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    container_name: laravel-cont
+    networks:
+      - blog-net
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+
+  db:
+    image: mysql/mysql-server:5.7
+    container_name: mysql-cont
+    volumes:
+      - /var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    environment:
+      - MYSQL_ROOT_HOST:%
+      - MYSQL_ROOT_PASSWORD=123
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=mysql
+    networks:
+      - blog-net
