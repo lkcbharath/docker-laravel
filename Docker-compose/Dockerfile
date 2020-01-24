@@ -2,7 +2,7 @@ FROM php:7.0.4-fpm
 
 RUN apt-get update && apt-get install -y libmcrypt-dev git nano zip unzip \
     mysql-client libmagickwand-dev --no-install-recommends \
-    && pecl install imagick \
+    && yes '' | pecl upgrade imagick \
     && docker-php-ext-enable imagick \
     && docker-php-ext-install mcrypt pdo_mysql pdo mbstring
 
